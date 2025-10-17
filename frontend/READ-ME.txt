@@ -1,0 +1,129 @@
+# Happy Deal Transit ERP System
+
+Professional ERP system built for Happy Deal Transit company with comprehensive financial management, inventory tracking, and reporting capabilities.
+
+## System Overview
+
+- **Frontend**: React + Vite with modern UI components
+- **Backend**: Python Flask REST API 
+- **Database**: SQLite with automatic initialization
+- **Authentication**: JWT-based secure login system
+- **Features**: Dashboard, Transactions, Invoices, Inventory, Users, Reports
+
+## Quick Start
+
+### Prerequisites
+- Python 3.8+ 
+- Node.js 16+
+- npm or yarn
+
+### Backend Setup
+```bash
+cd backend
+python -m venv venv
+venv/Scripts/activate  # Windows
+# or: source venv/bin/activate  # Linux/Mac
+
+pip install flask flask-cors werkzeug pyjwt
+python run.py
+```
+
+### Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Access the System
+- **Frontend**: http://localhost:3000
+- **Backend**: http://localhost:5000
+- **Default Login**: admin@hdtransit.com / admin123
+
+## Key Features
+
+### 📊 Dashboard
+- Real-time financial overview
+- Income vs expenses charts
+- Key performance indicators
+- Recent activity tracking
+
+### 💰 Transactions
+- Multi-currency support (MAD, EUR, USD, GBP)
+- Income and expense tracking
+- Category-based organization
+- Advanced filtering and search
+
+### 📋 Invoices
+- Client invoice management
+- Status tracking (pending, paid, overdue)
+- Professional invoice generation
+
+### 📦 Inventory
+- Product and service inventory
+- Quantity and pricing management
+- Category-based organization
+- Automatic value calculations
+
+### 👥 Users
+- Multi-role user management (Admin, Manager, User)
+- Secure authentication
+- User status control
+
+### 📈 Reports
+- Weekly, Monthly, Semester, Annual reports
+- Multi-currency reporting
+- CSV export for Excel analysis
+- Professional formatted reports
+
+## Project Structure
+
+```
+├── backend/
+│   ├── app.py              # Main Flask application
+│   ├── run.py              # Application runner
+│   ├── requirements.txt    # Python dependencies
+│   └── config/            
+│       └── AmalJobLogo.png # Company logo
+├── frontend/
+│   ├── src/
+│   │   ├── components/    # React components
+│   │   ├── services/      # API services
+│   │   ├── App.jsx        # Main app component
+│   │   └── main.jsx       # Entry point
+│   ├── public/
+│   │   └── AmalJobLogo.png # Logo for web
+│   └── package.json       # Dependencies
+└── README.md
+```
+
+## Database Schema
+
+- **companies**: Company information
+- **users**: System users with roles
+- **transactions**: Financial transactions
+- **invoices**: Customer invoices
+- **inventory**: Products/services inventory
+
+## Security Features
+
+- JWT token authentication
+- Password hashing
+- Role-based access control
+- CORS protection
+- Input validation
+
+## Production Notes
+
+- Change SECRET_KEY in .env file
+- Use PostgreSQL for production database
+- Enable HTTPS
+- Configure proper CORS origins
+- Set up proper logging
+
+## Support
+
+For technical issues or feature requests, contact: aymaneelmj@gmail.com
+
+---
+*Built with ❤️ for Happy Deal Transit*

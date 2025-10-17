@@ -1,0 +1,23 @@
+# Navigate to your project root
+cd C:\path\to\system
+
+# If not already initialized
+git init
+
+# Add the remote (your existing repo)
+git remote add origin https://github.com/aymaneelmj-spec/MyERPAccountingSystem.git
+
+# Create .gitignore file first
+# (Copy the .gitignore content I provided earlier into a file named .gitignore)
+
+# Remove the database from Git tracking
+git rm --cached hdtransit.db
+
+# Add all files with proper structure
+git add .
+
+# Commit
+git commit -m "Reorganize project structure with backend and frontend folders"
+
+# Force push to replace the messy upload
+git push -f origin main
