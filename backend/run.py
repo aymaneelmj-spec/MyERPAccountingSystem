@@ -15,16 +15,22 @@ except ImportError as e:
     print("Make sure app.py is in the same directory and all dependencies are installed")
     sys.exit(1)
 
+# Initialize database on startup (for first deployment)
+try:
+    with app.app_context():
+        init_db()
+except Exception as e:
+    print(f"Database initialization warning: {e}")
+
+# Export app for Vercel serverless
+application = app
+
 def main():
     try:
-        # Initialize database
-        print("Initializing database...")
-        init_db()
-        
         # Get configuration from environment variables
         host = os.environ.get('FLASK_HOST', '0.0.0.0')
         port = int(os.environ.get('FLASK_PORT', 5000))
-        debug = os.environ.get('FLASK_DEBUG', 'True').lower() in ['true', '1', 'yes']
+        debug = os.environ.get('FLASK_DEBUG', 'False').lower() in ['true', '1', 'yes']
         
         print("="*50)
         print("Happy Deal Transit ERP Backend")
