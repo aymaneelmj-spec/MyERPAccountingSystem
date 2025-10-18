@@ -2,7 +2,7 @@
 
 class ApiService {
   constructor() {
-    this.baseURL = 'http://localhost:5000/api';
+    this.baseURL = import.meta.env.VITE_API_URL || 'https://my-erp-backend-theta.vercel.app';
     this.token = null;
   }
 
