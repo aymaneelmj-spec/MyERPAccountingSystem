@@ -1,14 +1,20 @@
-// src/services/api.js - COMPLETE FIXED VERSION
+// src/services/api.js - COMPLETE PRODUCTION VERSION
 
 class ApiService {
   constructor() {
-    this.baseURL = import.meta.env.VITE_API_URL || 'https://my-erp-backend-theta.vercel.app';
+    // Use environment variable or default to production backend
+    this.baseURL = import.meta.env.VITE_API_URL || 'https://my-erp-backend-theta.vercel.app/api';
     this.token = null;
+    
+    console.log('🔧 API Service initialized with baseURL:', this.baseURL);
   }
 
   init() {
     if (typeof window !== 'undefined') {
       this.token = localStorage.getItem('token');
+      if (this.token) {
+        console.log('✅ Token loaded from localStorage');
+      }
     }
   }
 
@@ -16,6 +22,7 @@ class ApiService {
     this.token = token;
     if (typeof window !== 'undefined') {
       localStorage.setItem('token', token);
+      console.log('✅ Token saved to localStorage');
     }
   }
 
@@ -30,6 +37,7 @@ class ApiService {
     this.token = null;
     if (typeof window !== 'undefined') {
       localStorage.removeItem('token');
+      console.log('🗑️ Token cleared from localStorage');
     }
   }
 
@@ -38,7 +46,8 @@ class ApiService {
     console.log(`🚀 API Call: ${method} ${url}`);
 
     const headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
     };
 
     const token = this.getToken();
@@ -49,7 +58,8 @@ class ApiService {
     const config = {
       method,
       headers,
-      mode: 'cors'
+      mode: 'cors',
+      credentials: 'include'
     };
 
     if (data && (method === 'POST' || method === 'PUT')) {
@@ -338,7 +348,7 @@ class ApiService {
     }
   }
 
-  // Health check
+  // === HEALTH CHECK ===
   async performHealthCheck() {
     console.log('🏥 Performing health check...');
     try {
@@ -348,14 +358,16 @@ class ApiService {
         'Connected': '✅',
         'Has Token': this.getToken() ? '✅' : '❌',
         'Network': '✅',
+        'Status': response.status,
+        'Version': response.version,
         'Last Check': new Date().toLocaleString('fr-FR')
       });
       return response;
     } catch (error) {
       console.error('❌ API Health Check Failed:', error);
       if (error.message.includes('Failed to fetch')) {
-        console.warn('🚧 Backend server might not be running on localhost:5000');
-        console.warn('🚧 Make sure your Flask/Python backend is started');
+        console.warn('🚧 Backend server might be unreachable');
+        console.warn('🚧 Check CORS configuration and backend deployment');
       }
       throw error;
     }
@@ -365,21 +377,32 @@ class ApiService {
 // Create and export singleton instance
 const apiService = new ApiService();
 
+// Initialize on browser
 if (typeof window !== 'undefined') {
   apiService.init();
+  
+  // Perform health check after a short delay
   setTimeout(() => {
     apiService.performHealthCheck().catch(e => {
-      console.warn('⚠️ Health check failed (normal if backend offline):', e.message);
+      console.warn('⚠️ Initial health check failed:', e.message);
+      console.warn('⚠️ This is normal if backend is still starting up');
     });
   }, 1000);
 }
 
+// Auth service wrapper
 const authService = {
   login: (credentials) => apiService.login(credentials),
-  logout: () => apiService.clearToken(),
+  logout: () => {
+    apiService.clearToken();
+    if (typeof window !== 'undefined') {
+      window.location.href = '/login';
+    }
+  },
   getUserProfile: () => apiService.getUserProfile(),
   isAuthenticated: () => !!apiService.getToken()
 };
 
+// Export both named and default
 export { apiService, authService };
 export default apiService;
