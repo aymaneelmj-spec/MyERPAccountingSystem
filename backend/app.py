@@ -69,7 +69,7 @@ jwt = JWTManager(app)
 # Enhanced CORS Configuration
 CORS(app, 
      origins=['http://localhost:3000', 'http://127.0.0.1:3000', 'http://192.168.1.101:3000', 
-              'https://*.vercel.app', 'https://myerp-frontend.vercel.app'],
+              'https://*.vercel.app', 'https://myerp-frontend.vercel.app'], 'https://my-erp-frontend-delta.vercel.app',
      supports_credentials=True,
      allow_headers=['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials'],
      methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
