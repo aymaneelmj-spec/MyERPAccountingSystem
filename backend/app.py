@@ -66,15 +66,23 @@ os.makedirs(os.path.join(app.instance_path, 'uploads'), exist_ok=True)
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 
-# Enhanced CORS Configuration
+# Enhanced CORS Configuration - MORE PERMISSIVE VERSION
 CORS(app, 
-     origins=['http://localhost:3000', 'http://127.0.0.1:3000', 'http://192.168.1.101:3000', 
-              'https://*.vercel.app', 'https://my-erp-frontend-delta.vercel.app',
-         'https://my-erp-accounting-system-uskd.vercel.app'],
-     supports_credentials=True,
-     allow_headers=['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials'],
-     methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-     expose_headers=['Content-Type', 'Authorization']
+     resources={
+         r"/*": {
+             "origins": [
+                 "http://localhost:3000",
+                 "http://127.0.0.1:3000",
+                 "https://my-erp-frontend-delta.vercel.app",
+                 "https://my-erp-accounting-system-uskd.vercel.app",
+                 "https://*.vercel.app"
+             ],
+             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+             "allow_headers": ["Content-Type", "Authorization"],
+             "expose_headers": ["Content-Type", "Authorization"],
+             "supports_credentials": True
+         }
+     }
 )
 
 # ============ DATABASE MODELS ============
